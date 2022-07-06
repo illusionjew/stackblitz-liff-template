@@ -137,7 +137,17 @@
         </div>
         <div class="mb-2">
           <label class="form-label">วันเดือนปีเกิด *</label>
-          <input type="date" class="form-control form-control-sm" required />
+          <div class="input-group">
+            <select class="form-select form-select-sm" id="BirthDateSelector">
+              <option selected>dd</option>
+            </select>
+            <select class="form-select form-select-sm" id="BirthMonthSelector">
+              <option selected>mm</option>
+            </select>
+            <select class="form-select form-select-sm" id="BirthYearSelector">
+              <option selected>yyyy</option>
+            </select>
+          </div>
           <div class="invalid-feedback">กรุณาระบุวันเกิด</div>
         </div>
         <div class="mb-2">
