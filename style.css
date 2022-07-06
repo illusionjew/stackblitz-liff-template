@@ -1,0 +1,51 @@
+* {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.logo-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 50px;
+  border-radius: 50%;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.navbar-style {
+  background-color: #004b96;
+}
+
+.form-container {
+  margin-top: 55px;
+}
+
+.form-title {
+  font-size: large;
+  font-weight: bold;
+}
+
+.form-subtitle {
+  color: gray;
+  font-size: small;
+  font-weight: lighter;
+}
+
+.form-body {
+  margin-top: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#PrefixnameDiv {
+  display: none;
+}
+
+.gender-radio {
+  border: 0px;
+}
+
+.btn-registration {
+  color: white;
+  background-color: #004b96;
+}

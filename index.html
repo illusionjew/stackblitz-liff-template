@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script
+      charset="utf-8"
+      src="https://static.line-scdn.net/liff/edge/2/sdk.js"
+    ></script>
+    <title>ZEA Tuna Campaign</title>
+  </head>
+  <body id="content">
+    <script>
+      function togglePrefixInput() {
+        const prefix_selected = document.getElementById('PrefixSelector').value;
+        if (prefix_selected == 'อื่น ๆ') {
+          document.getElementById('PrefixnameDiv').style.display = 'block';
+        } else {
+          document.getElementById('PrefixnameDiv').style.display = 'none';
+        }
+      }
+    </script>
+    <nav
+      class="navbar fixed-top bg-light"
+      style="padding-top: 0px; padding-bottom: 0px"
+    >
+      <div class="container-fluid navbar-style">
+        <img
+          class="logo-center"
+          src="https://scontent-sin6-4.xx.fbcdn.net/v/t39.30808-6/258874688_106468635199935_7053245645079018722_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeHQvQjWX-PzRmxntVHVq-CgtBOr-X5AA1-0E6v5fkADX6pA49Gf5ff4WIPx_8f8wujDrgiQ7zLRMgAOVtRZGH3B&_nc_ohc=J9oyEF-USi0AX9dJWyr&_nc_ht=scontent-sin6-4.xx&oh=00_AT99Tc2ckVJAb1wCVMN_OBGVck3n1LlsbLIZ3PHOr6fdpQ&oe=62C7C5A8"
+        />
+      </div>
+    </nav>
+    <div class="container-md form-container">
+      <div class="form-title">ลงทะเบียนสมัครสมาชิก</div>
+      <div class="form-subtitle">กรุณากรอกข้อมูลในช่องที่มี * ทุกช่อง</div>
+      <form
+        id="CampaignRegistration"
+        class="form-body needs-validation"
+        novalidate
+      >
+        <div class="mb-3">
+          <label class="form-label">คำนำหน้าชื่อ *</label>
+          <select
+            id="PrefixSelector"
+            class="form-select"
+            onchange="togglePrefixInput()"
+            required
+          >
+            <option selected>เลือกคำนำหน้าชื่อ</option>
+            <option value="นาย">นาย</option>
+            <option value="นางสาว">นางสาว</option>
+            <option value="นาง">นาง</option>
+            <option value="อื่น ๆ" onselect="">อื่น ๆ</option>
+          </select>
+          <div class="invalid-feedback">กรุณาเลือกคำนำหน้าชื่อ</div>
+        </div>
+        <div id="PrefixnameDiv" class="mb-3">
+          <label class="form-label">โปรดระบุ</label>
+          <input id="PrefixInput" type="text" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">ชื่อ *</label>
+          <input
+            id="FirstnameInput"
+            type="text"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">กรุณากรอกชื่อ</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">นามสกุล *</label>
+          <input id="SurnameInput" type="text" class="form-control" required />
+          <div class="invalid-feedback">กรุณากรอกนามสกุล</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">ชื่อเล่น</label>
+          <input id="NucknameInput" type="text" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">เพศ</label>
+          <div id="GenderSelector" class="form-control gender-radio">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio1"
+                value="Male"
+                checked
+              />
+              <label class="form-check-label" for="inlineRadio1">ชาย</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio2"
+                value="Female"
+              />
+              <label class="form-check-label" for="inlineRadio2">หญิง</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio3"
+                value="Other"
+              />
+              <label class="form-check-label" for="inlineRadio3">ไม่ระบุ</label>
+            </div>
+          </div>
+          <div class="invalid-feedback">กรุณาเลือกเพศ</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">วันเดือนปีเกิด *</label>
+          <input type="date" class="form-control" required />
+          <div class="invalid-feedback">กรุณาระบุวันเกิด</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">เบอร์โทร *</label>
+          <input id="PhoneInput" type="tel" class="form-control" required />
+          <div class="invalid-feedback">กรุณากรอกเบอร์โทร</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">email</label>
+          <input id="EmailInput" type="email" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">ที่อยู่ *</label>
+          <textarea
+            id="AddressInput"
+            class="form-control"
+            rows="2"
+            required
+          ></textarea>
+          <div class="invalid-feedback">กรุณากรอกที่อยู่</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">จังหวัด *</label>
+          <select id="ProvinceSelector" class="form-select" required>
+            <option selected>เลือกจังหวัด</option>
+          </select>
+          <div class="invalid-feedback">กรุณาเลือกจังหวัด</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">อำเภอ/เขต *</label>
+          <select id="DistrictSelector" class="form-select" required>
+            <option selected>เลือกอำเภอ/เขต</option>
+          </select>
+          <div class="invalid-feedback">กรุณาเลือกอำเภอ/เขต</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">ตำบล/แขวง *</label>
+          <select id="SubdistrictSelector" class="form-select" required>
+            <option selected>เลือกตำบล/แขวง</option>
+          </select>
+          <div class="invalid-feedback">กรุณาเลือกตำบล/แขวง</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">รหัสไปรษณีย์ *</label>
+          <input id="PostcodeInput" type="tel" class="form-control" required />
+          <div class="invalid-feedback">กรุณากรอกรหัสไปรษณีย์</div>
+        </div>
+        <div class="mb-3">
+          <button class="btn form-control btn-registration" type="submit">
+            ลงทะเบียน
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
