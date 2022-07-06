@@ -1,7 +1,6 @@
 @font-face {
   font-family: dbHelvethaica;
-  /* src: url(/assets/fonts/db-helvethaica-x-bd-ext-it-v32.ttf); */
-  src: url(https://github.com/illusionjew/stackblitz-liff-template/blob/main/assets/fonts/db-helvethaica-x-bd-ext-it-v32.ttf);
+  src: url(https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/fonts/db-helvethaica-x-bd-ext-it-v32.ttf);
 }
 
 * {
@@ -27,13 +26,13 @@
 }
 
 .form-title {
-  font-size: large;
+  font-size: 22px;
   font-weight: bold;
 }
 
 .form-subtitle {
   color: gray;
-  font-size: small;
+  font-size: 16px;
   font-weight: lighter;
 }
 
@@ -54,4 +53,12 @@
 .btn-registration {
   color: white;
   background-color: #002d74;
+}
+
+form {
+  font-size: 18px;
+}
+
+.form-label {
+  margin-bottom: 4px;
 }
