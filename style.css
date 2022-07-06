@@ -1,5 +1,11 @@
+@font-face {
+  font-family: dbHelvethaica;
+  /* src: url(/assets/fonts/db-helvethaica-x-bd-ext-it-v32.ttf); */
+  src: url(https://github.com/illusionjew/stackblitz-liff-template/blob/main/assets/fonts/db-helvethaica-x-bd-ext-it-v32.ttf);
+}
+
 * {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: dbHelvethaica !important;
 }
 
 .logo-center {
@@ -13,7 +19,7 @@
 }
 
 .navbar-style {
-  background-color: #004b96;
+  background-color: #002d74;
 }
 
 .form-container {
@@ -47,5 +53,5 @@
 
 .btn-registration {
   color: white;
-  background-color: #004b96;
+  background-color: #002d74;
 }
