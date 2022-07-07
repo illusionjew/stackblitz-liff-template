@@ -84,7 +84,6 @@ function initialBoundarySelector() {
   let province_sorted = province_array.sort((a, b) =>
     a.name_th > b.name_th ? 1 : b.name_th > a.name_th ? -1 : 0
   );
-  province_sorted.forEach(item);
   province_sorted.forEach((province) => {
     addOptBoundaryToSelector(province_selector, province);
   });
