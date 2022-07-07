@@ -52,6 +52,7 @@ function initialBirthSelector() {
     var option = document.createElement('option');
     option.text = i + 543;
     option.value = i;
+    option.id = 'year' + i;
     birth_year_selector.appendChild(option);
   }
 
@@ -59,6 +60,7 @@ function initialBirthSelector() {
     var option = document.createElement('option');
     option.text = month_dict[j];
     option.value = j;
+    option.id = 'month' + j;
     birth_month_selector.appendChild(option);
   }
 
@@ -66,6 +68,7 @@ function initialBirthSelector() {
     var option = document.createElement('option');
     option.text = k;
     option.value = k;
+    option.id = 'date' + k;
     birth_date_selector.appendChild(option);
   }
 }
