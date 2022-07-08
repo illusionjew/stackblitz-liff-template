@@ -30,8 +30,8 @@ const birth_date_selector = document.getElementById('BirthDateSelector');
 const birth_month_selector = document.getElementById('BirthMonthSelector');
 const birth_year_selector = document.getElementById('BirthYearSelector');
 const province_selector = document.getElementById('ProvinceSelector');
-const district_selector = document.getElementById('DistrictSelector');
-const subdistrict_selector = document.getElementById('SubdistrictSelector');
+const district_selector = document.getElementById('DistrictData');
+const subdistrict_selector = document.getElementById('SubdistrictData');
 
 async function main() {
   initialBirthSelector();
@@ -91,25 +91,20 @@ function initialBoundarySelector() {
     prov_opt.id = province.name_th;
     province_selector.appendChild(prov_opt);
   });
-
   district_array.forEach((district) => {
     let dist_opt = document.createElement('option');
     dist_opt.text = district.name_th;
     dist_opt.value = district.name_th;
     dist_opt.id = district.parent_th + '-' + district.name_th;
+    dist_opt.className = district.parent_th;
     district_selector.appendChild(dist_opt);
   });
-
   subdistrict_array.forEach((subd) => {
     let subd_opt = document.createElement('option');
     subd_opt.text = subd.name_th;
     subd_opt.value = subd.name_th;
     subd_opt.id = subd.root_th + '-' + subd.parent_th + '-' + subd.name_th;
+    subd_opt.className = subd.root_th + '-' + subd.parent_th;
     subdistrict_selector.appendChild(subd_opt);
   });
-
-  document.getElementById('DistrictData').innerHTML =
-    district_selector.innerHTML;
-  document.getElementById('SubdistrictData').innerHTML =
-    subdistrict_selector.innerHTML;
 }

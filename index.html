@@ -17,11 +17,26 @@
     <script>
       function filterDistrict() {
         let prov_sel = document.getElementById('ProvinceSelector').value;
+        const dist_selector = document.getElementById('DistrictSelector');
+        dist_selector.innerHTML = '';
+        document.getElementById('SubdistrictSelector').innerHTML =
+          '<option selected>เลือกตำบล/แขวง</option>';
         if (prov_sel != 'เลือกจังหวัด') {
-          const dist_all_opt =
-            document.getElementById('DistrictData').innerHTML;
-          const dist_selector = document.getElementById('DistrictSelector');
-          dist_selector.innerHTML = dist_all_opt;
+          let sct = '.' + prov_sel;
+          let opts = document.querySelectorAll(sct);
+          opts.forEach((o) => dist_selector.appendChild(o));
+        }
+      }
+
+      function filterSubdistrict() {
+        let prov_sel = document.getElementById('ProvinceSelector').value;
+        let dist_sel = document.getElementById('DistrictSelector').value;
+        const subd_selector = document.getElementById('SubdistrictSelector');
+        subd_selector.innerHTML = '';
+        if (prov_sel != 'เลือกจังหวัด') {
+          let sct = '.' + prov_sel + '-' + dist_sel;
+          let opts = document.querySelectorAll(sct);
+          opts.forEach((o) => subd_selector.appendChild(o));
         }
       }
 
@@ -260,6 +275,7 @@
           <select
             id="DistrictSelector"
             class="form-select form-select-sm"
+            onchange="filterSubdistrict()"
             required
           >
             <option selected>เลือกอำเภอ/เขต</option>
