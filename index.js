@@ -85,14 +85,10 @@ function initialBoundarySelector() {
     a.name_th > b.name_th ? 1 : b.name_th > a.name_th ? -1 : 0
   );
   province_sorted.forEach((province) => {
-    addOptBoundaryToSelector(province_selector, province);
+    let prov_opt = document.createElement('option');
+    prov_opt.text = province.name_th;
+    prov_opt.value = province.name_th;
+    prov_opt.id = province.name_th;
+    province_array.appendChild(prov_opt);
   });
-}
-
-function addOptBoundaryToSelector(selector, data) {
-  let opt = document.createElement('option');
-  opt.text = data.name_th;
-  opt.value = data.name_th;
-  opt.id = data.name_th;
-  selector.appendChild(opt);
 }
