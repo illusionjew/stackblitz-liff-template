@@ -32,8 +32,6 @@ const birth_year_selector = document.getElementById('BirthYearSelector');
 const province_selector = document.getElementById('ProvinceSelector');
 const district_selector = document.getElementById('DistrictSelector');
 const subdistrict_selector = document.getElementById('SubdistrictSelector');
-const dist_data = document.getElementById('DistrictData');
-const subd_data = document.getElementById('SubdistrictData');
 
 async function main() {
   initialBirthSelector();
@@ -100,7 +98,6 @@ function initialBoundarySelector() {
     dist_opt.value = district.name_th;
     dist_opt.id = district.parent_th + '-' + district.name_th;
     district_selector.appendChild(dist_opt);
-    dist_data.appendChild(dist_opt);
   });
 
   subdistrict_array.forEach((subd) => {
@@ -109,6 +106,10 @@ function initialBoundarySelector() {
     subd_opt.value = subd.name_th;
     subd_opt.id = subd.root_th + '-' + subd.parent_th + '-' + subd.name_th;
     subdistrict_selector.appendChild(subd_opt);
-    subd_data.appendChild(subd_opt);
   });
+
+  document.getElementById('DistrictData').innerHTML =
+    district_selector.innerHTML;
+  document.getElementById('SubdistrictData').innerHTML =
+    subdistrict_selector.innerHTML;
 }
