@@ -15,6 +15,16 @@
   </head>
   <body id="content">
     <script>
+      function filterDistrict() {
+        let prov_sel = document.getElementById('ProvinceSelector').value;
+        if (prov_sel != 'เลือกจังหวัด') {
+          const dist_all_opt =
+            document.getElementById('DistrictData').innerHTML;
+          const dist_selector = document.getElementById('DistrictSelector');
+          dist_selector.innerHTML = dist_all_opt;
+        }
+      }
+
       function togglePrefixInput() {
         let prefix_selected = document.getElementById('PrefixSelector').value;
         if (prefix_selected == 'อื่น ๆ') {
@@ -238,6 +248,7 @@
           <select
             id="ProvinceSelector"
             class="form-select form-select-sm"
+            onchange="filterDistrict()"
             required
           >
             <option selected>เลือกจังหวัด</option>
@@ -283,5 +294,11 @@
         </div>
       </form>
     </div>
+    <select id="DistrictData" style="display: none">
+      <option selected>เลือกอำเภอ/เขต</option>
+    </select>
+    <select id="SubdistrictData" style="display: none">
+      <option selected>เลือกตำบล/แขวง</option>
+    </select>
   </body>
 </html>
