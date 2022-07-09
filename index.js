@@ -34,6 +34,7 @@ const district_selector = document.getElementById('DistrictData');
 const subdistrict_selector = document.getElementById('SubdistrictData');
 
 async function main() {
+  // genTK();
   initialBirthSelector();
   initialBoundarySelector();
   // getUserProfile();
@@ -107,4 +108,22 @@ function initialBoundarySelector() {
     subd_opt.className = subd.root_th + '-' + subd.parent_th;
     subdistrict_selector.appendChild(subd_opt);
   });
+}
+
+function genTK() {
+  let crypto = require('crypto');
+  let tenant = 'other2'; //TSCN
+  let location = 'ticketgo'; //TSpace
+  let contact = 'it-thaibev';
+  let t = new Date();
+  let date = ('0' + t.getDate()).slice(-2);
+  let month = ('0' + (t.getMonth() + 1)).slice(-2);
+  let year = t.getFullYear();
+  let dt = `${year}${month}${date}`;
+  let body = `${location}${contact}${tenant}${dt}`;
+  let hash = crypto
+    .createHmac('SHA256', '1TTh@ib3v')
+    .update(body)
+    .digest('base64');
+  return hash;
 }
