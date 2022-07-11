@@ -55,6 +55,11 @@
   background-color: #002d74;
 }
 
+.btn-registration:hover {
+  color: white;
+  background-color: #002d74;
+}
+
 label,
 select,
 input {
