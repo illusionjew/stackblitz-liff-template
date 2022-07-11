@@ -6,6 +6,11 @@ import liff from '@line/liff';
 
 import boundary_data from './assets/province.json';
 
+var script = document.createElement('script');
+script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+script.type = 'text/javascript';
+document.getElementsByTagName('head')[0].appendChild(script);
+
 const province_array = boundary_data.Province;
 const district_array = boundary_data.District;
 const subdistrict_array = boundary_data.Subdistrict;
@@ -34,21 +39,21 @@ const district_selector = document.getElementById('DistrictData');
 const subdistrict_selector = document.getElementById('SubdistrictData');
 
 async function main() {
+  await liff.init({
+    liffId: '1657263880-bNJ3z7yx',
+    withLoginOnExternalBrowser: true,
+  });
   const cid = getUserProfile();
   document
     .querySelector('meta[name="header_id"]')
     .setAttribute('content', genTK(cid));
   initialBirthSelector();
   initialBoundarySelector();
-  await liff.init({
-    liffId: '1657263880-bNJ3z7yx',
-    withLoginOnExternalBrowser: true,
-  });
 }
 main();
 
-function getUserProfile() {
-  const user_profile = liff.getProfile();
+async function getUserProfile() {
+  const user_profile = await liff.getProfile();
   document.getElementById('ClientId').value = user_profile.userId;
   // user_profile.pictureUrl;
   // user_profile.displayName;
@@ -129,47 +134,72 @@ function genTK(contact) {
 }
 
 function submitForm() {
-  let req_url = 'http://ai-services.tspace.tech/zeatuna/customer';
+  let req_url = 'http://ai-services.tspace.tech/zeatuna/customer/';
   let prefix_sel = document.getElementById('PrefixSelector').value;
   if (prefix_sel == 'อื่น ๆ') {
     prefix_sel = document.getElementById('PrefixInput').value;
   }
 
-  let json_data = {
-    line_id: document.getElementById('ClientId').value,
-    title: prefix_sel,
-    first_name: document.getElementById('FirstnameInput').value,
-    last_name: document.getElementById('SurnameInput').value,
-    nick_name: document.getElementById('NucknameInput').value,
-    gender: $('#GenderSelector input:radio:checked').val(),
-    birthdate:
-      document.getElementById('BirthYearSelector').value +
-      '-' +
-      document.getElementById('BirthMonthSelector').value +
-      '-' +
-      document.getElementById('BirthDateSelector').value,
-    phone_number: document.getElementById('PhoneInput').value,
-    email: document.getElementById('EmailInput').value,
-    address: document.getElementById('AddressInput').value,
-    province: document.getElementById('ProvinceSelector').value,
-    district: document.getElementById('DistrictSelector').value,
-    sub_district: document.getElementById('SubdistrictSelector').value,
-    postcode: document.getElementById('PostcodeInput').value,
-  };
-  console.log(json_data);
+  let firstname_val = document.getElementById('FirstnameInput').value;
+  let surname_val = document.getElementById('SurnameInput').value;
+  let phone_val = document.getElementById('PhoneInput').value;
+  let address_val = document.getElementById('AddressInput').value;
+  let postcode_val = document.getElementById('PostcodeInput').value;
+  let prov_val = document.getElementById('ProvinceSelector').value;
+  let dis_val = document.getElementById('DistrictSelector').value;
+  let subd_val = document.getElementById('SubdistrictSelector').value;
+  let d_val = document.getElementById('BirthDateSelector').value;
+  let m_val = document.getElementById('BirthMonthSelector').value;
+  let y_val = document.getElementById('BirthYearSelector').value;
+  if (
+    firstname_val != '' &&
+    surname_val != '' &&
+    phone_val != '' &&
+    address_val != '' &&
+    postcode_val != '' &&
+    prov_val != 'เลือกจังหวัด' &&
+    dis_val != 'เลือกอำเภอ/เขต' &&
+    subd_val != 'เลือกตำบล/แขวง' &&
+    d_val != 'dd' &&
+    m_val != 'mm' &&
+    y_val != 'yyyy'
+  ) {
+    let json_data = {
+      line_id: document.getElementById('ClientId').value,
+      title: prefix_sel,
+      first_name: firstname_val,
+      last_name: surname_val,
+      nick_name: document.getElementById('NucknameInput').value,
+      gender: $('#GenderSelector input:radio:checked').val(),
+      birthdate: y_val + '-' + m_val + '-' + d_val,
+      phone_number: phone_val,
+      email: document.getElementById('EmailInput').value,
+      address: address_val,
+      province: prov_val,
+      district: dis_val,
+      sub_district: subd_val,
+      postcode: postcode_val,
+    };
 
-  $.ajax({
-    type: 'POST',
-    url: req_url,
-    contentType: 'application/json',
-    // headers: { apikey: api_key },
-    dataType: 'json',
-    data: JSON.stringify(json_data),
-    success: function (response) {
-      liff.closeWindow();
-    },
-    error: function (err) {
-      console.log(err);
-    },
-  });
+    $.ajax({
+      type: 'POST',
+      url: req_url,
+      contentType: 'application/json',
+      // headers: { apikey: api_key },
+      dataType: 'json',
+      data: JSON.stringify(json_data),
+      success: function (response) {
+        liff.closeWindow();
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+  } else {
+    alert('กรุณากรอกข้อมูลในช่องที่มีเครื่องหมาย * ให้ครบถ้วน');
+  }
 }
+
+document.getElementById('SubmitForm').onclick = () => {
+  submitForm();
+};
