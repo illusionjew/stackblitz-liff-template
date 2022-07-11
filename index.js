@@ -6,11 +6,6 @@ import liff from '@line/liff';
 
 import boundary_data from './assets/province.json';
 
-var script = document.createElement('script');
-script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
-script.type = 'text/javascript';
-document.getElementsByTagName('head')[0].appendChild(script);
-
 const province_array = boundary_data.Province;
 const district_array = boundary_data.District;
 const subdistrict_array = boundary_data.Subdistrict;
@@ -134,7 +129,7 @@ function genTK(contact) {
 }
 
 function submitForm() {
-  let req_url = 'http://ai-services.tspace.tech/zeatuna/customer/';
+  let req_url = 'https://ai-services.tspace.tech/zeatuna/customer/';
   let prefix_sel = document.getElementById('PrefixSelector').value;
   if (prefix_sel == 'อื่น ๆ') {
     prefix_sel = document.getElementById('PrefixInput').value;
@@ -180,6 +175,7 @@ function submitForm() {
       sub_district: subd_val,
       postcode: postcode_val,
     };
+    console.log(json_data);
 
     $.ajax({
       type: 'POST',
