@@ -116,13 +116,12 @@ function genTK() {
   let crypto = require('crypto');
   let tenant = 'other2';
   let location = 'ticketgo';
-  let contact = 'it-thaibev';
+  let contact = 'thaibev-it';
   let t = new Date();
   let date = ('0' + t.getDate()).slice(-2);
   let month = ('0' + (t.getMonth() + 1)).slice(-2);
   let year = t.getFullYear();
-  let dt = `${year}${month}${date}`;
-  let body = `${location}${contact}${tenant}${dt}`;
+  let body = `${location}${contact}${tenant}${year}${month}${date}`;
   let hash = crypto
     .createHmac('SHA256', '1TTh@ib3v')
     .update(body)
