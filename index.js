@@ -189,6 +189,7 @@ function submitForm() {
       dataType: 'json',
       data: JSON.stringify(json_data),
       success: function (response) {
+        alert('ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรมกับเรา');
         liff.closeWindow();
       },
       error: function (err) {
