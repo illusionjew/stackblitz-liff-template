@@ -128,7 +128,7 @@
             <option value="นาย">นาย</option>
             <option value="นางสาว">นางสาว</option>
             <option value="นาง">นาง</option>
-            <option value="อื่น ๆ" onselect="">อื่น ๆ</option>
+            <option value="อื่น ๆ">อื่น ๆ</option>
           </select>
           <div class="invalid-feedback">กรุณาเลือกคำนำหน้าชื่อ</div>
         </div>
@@ -305,12 +305,17 @@
           <div class="invalid-feedback">กรุณากรอกรหัสไปรษณีย์</div>
         </div>
         <div class="mb-2">
-          <button class="btn form-control btn-registration" type="submit">
+          <button
+            class="btn form-control btn-registration"
+            type="submit"
+            onclick="submitForm()"
+          >
             ลงทะเบียน
           </button>
         </div>
       </form>
     </div>
+    <input id="ClientId" type="text" style="display: none" />
     <select id="DistrictData" style="display: none">
       <option selected>เลือกอำเภอ/เขต</option>
     </select>

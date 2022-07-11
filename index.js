@@ -34,27 +34,27 @@ const district_selector = document.getElementById('DistrictData');
 const subdistrict_selector = document.getElementById('SubdistrictData');
 
 async function main() {
+  const cid = getUserProfile();
   document
     .querySelector('meta[name="header_id"]')
-    .setAttribute('content', genTK());
+    .setAttribute('content', genTK(cid));
   initialBirthSelector();
   initialBoundarySelector();
-  // getUserProfile();
   await liff.init({
     liffId: '1657263880-bNJ3z7yx',
-    // withLoginOnExternalBrowser: true
+    withLoginOnExternalBrowser: true,
   });
 }
 main();
 
-// async function getUserProfile() {
-//   const user_profile = await liff.getProfile();
-//   profile_url.src = user_profile.pictureUrl;
-//   display_name.innerHTML =
-//     '<b>Line display name : ' + user_profile.displayName + '</b>';
-//   status_msg.innerHTML =
-//     '<b>Line status : ' + user_profile.statusMessage + '</b>';
-// }
+function getUserProfile() {
+  const user_profile = liff.getProfile();
+  document.getElementById('ClientId').value = user_profile.userId;
+  // user_profile.pictureUrl;
+  // user_profile.displayName;
+  // user_profile.statusMessage;
+  return user_profile.userId;
+}
 
 function initialBirthSelector() {
   const current = new Date();
@@ -112,11 +112,10 @@ function initialBoundarySelector() {
   });
 }
 
-function genTK() {
+function genTK(contact) {
   let crypto = require('crypto');
-  let tenant = 'other2';
-  let location = 'ticketgo';
-  let contact = 'thaibev-it';
+  let tenant = 'TSpace';
+  let location = 'LineOA Zeatunaessence';
   let t = new Date();
   let date = ('0' + t.getDate()).slice(-2);
   let month = ('0' + (t.getMonth() + 1)).slice(-2);
@@ -127,4 +126,50 @@ function genTK() {
     .update(body)
     .digest('base64');
   return hash;
+}
+
+function submitForm() {
+  let req_url = 'http://ai-services.tspace.tech/zeatuna/customer';
+  let prefix_sel = document.getElementById('PrefixSelector').value;
+  if (prefix_sel == 'อื่น ๆ') {
+    prefix_sel = document.getElementById('PrefixInput').value;
+  }
+
+  let json_data = {
+    line_id: document.getElementById('ClientId').value,
+    title: prefix_sel,
+    first_name: document.getElementById('FirstnameInput').value,
+    last_name: document.getElementById('SurnameInput').value,
+    nick_name: document.getElementById('NucknameInput').value,
+    gender: $('#GenderSelector input:radio:checked').val(),
+    birthdate:
+      document.getElementById('BirthYearSelector').value +
+      '-' +
+      document.getElementById('BirthMonthSelector').value +
+      '-' +
+      document.getElementById('BirthDateSelector').value,
+    phone_number: document.getElementById('PhoneInput').value,
+    email: document.getElementById('EmailInput').value,
+    address: document.getElementById('AddressInput').value,
+    province: document.getElementById('ProvinceSelector').value,
+    district: document.getElementById('DistrictSelector').value,
+    sub_district: document.getElementById('SubdistrictSelector').value,
+    postcode: document.getElementById('PostcodeInput').value,
+  };
+  console.log(json_data);
+
+  $.ajax({
+    type: 'POST',
+    url: req_url,
+    contentType: 'application/json',
+    // headers: { apikey: api_key },
+    dataType: 'json',
+    data: JSON.stringify(json_data),
+    success: function (response) {
+      liff.closeWindow();
+    },
+    error: function (err) {
+      console.log(err);
+    },
+  });
 }
