@@ -34,7 +34,9 @@ const district_selector = document.getElementById('DistrictData');
 const subdistrict_selector = document.getElementById('SubdistrictData');
 
 async function main() {
-  // genTK();
+  document
+    .querySelector('meta[name="header_id"]')
+    .setAttribute('content', genTK());
   initialBirthSelector();
   initialBoundarySelector();
   // getUserProfile();
@@ -112,8 +114,8 @@ function initialBoundarySelector() {
 
 function genTK() {
   let crypto = require('crypto');
-  let tenant = 'other2'; //TSCN
-  let location = 'ticketgo'; //TSpace
+  let tenant = 'other2';
+  let location = 'ticketgo';
   let contact = 'it-thaibev';
   let t = new Date();
   let date = ('0' + t.getDate()).slice(-2);
