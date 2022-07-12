@@ -3,8 +3,13 @@
   src: url(https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/fonts/DB-Helvethaica-X-v3.2.ttf);
 }
 
-* {
-  font-family: dbHelvethaica !important;
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  border-width: 1px !important;
 }
 
 .logo-center {
@@ -26,11 +31,13 @@
 }
 
 .form-title {
+  font-family: dbHelvethaica;
   font-size: 25px;
   font-weight: bold;
 }
 
 .form-subtitle {
+  font-family: dbHelvethaica;
   color: gray;
   font-size: 20px;
   font-weight: lighter;
@@ -60,13 +67,26 @@
   background-color: #002d74;
 }
 
-label,
-select,
-input,
-textarea {
+.form-label,
+.form-select,
+.form-control {
+  font-family: dbHelvethaica;
   font-size: 20px !important;
 }
 
 .form-label {
   margin-bottom: 4px;
+}
+
+#BtnRejectConsent {
+  width: 50%;
+  border-color: red;
+  background-color: white;
+  color: red;
+}
+
+#BtnSaveConsent {
+  width: 50%;
+  color: white;
+  background-color: #002d74;
 }

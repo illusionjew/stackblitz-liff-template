@@ -39,20 +39,22 @@ async function main() {
     withLoginOnExternalBrowser: true,
   });
   const cid = getUserProfile();
-  document
-    .querySelector('meta[name="header_id"]')
-    .setAttribute('content', genTK(cid));
-  initialBirthSelector();
-  initialBoundarySelector();
+  // document
+  //   .querySelector('meta[name="header_id"]')
+  //   .setAttribute('content', genTK(cid));
+  // fetchConsent(cid);
+  // initialBirthSelector();
+  // initialBoundarySelector();
 }
 main();
 
 async function getUserProfile() {
   const user_profile = await liff.getProfile();
-  document.getElementById('ClientId').value = user_profile.userId;
+  // document.getElementById('ClientId').value = user_profile.userId;
   // user_profile.pictureUrl;
   // user_profile.displayName;
   // user_profile.statusMessage;
+  fetchConsent(user_profile.userId);
   return user_profile.userId;
 }
 
@@ -177,7 +179,7 @@ function submitForm() {
     };
     console.log(json_data);
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.onload = function () {
       console.log(this.getAllResponseHeaders());
       // alert('ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรมกับเรา');
@@ -191,6 +193,56 @@ function submitForm() {
   }
 }
 
-document.getElementById('SubmitForm').onclick = () => {
-  submitForm();
-};
+// document.getElementById('SubmitForm').onclick = () => {
+//   submitForm();
+// };
+
+function fetchConsent(cid) {
+  let tk = genTK(cid);
+  let req_url =
+    'https://oth1uat.apps.thaibev.com/thaibevconsentapi/v1/Content/GetConsentByApp';
+  let json_req = {
+    appCode: '54BCA334-D935-4F52-9187-EE080F1C22F2',
+    userId: cid,
+    lang: 'th',
+    isRegister: 'true',
+    consentType: 'A',
+  };
+  let xhr = new XMLHttpRequest();
+  xhr.onload = function () {
+    if (xhr.status == 200) {
+      const resp = JSON.parse(xhr.response);
+      const div_content = document.getElementById('content-body');
+      div_content.innerHTML =
+        resp.content + '<br><form id="ConsentForm"></form>';
+      resp.consentList.forEach((item) => {
+        let confm = document.getElementById('ConsentForm');
+        let tag =
+          '<input type="checkbox" id="ConsentId' +
+          item.consentListId +
+          '" name="ConsentId' +
+          item.consentListId +
+          '" value="ConsentId' +
+          item.consentListId +
+          '"><label for="ConsentId' +
+          item.consentListId +
+          '">&nbsp;&nbsp;' +
+          item.description +
+          '</label><br>';
+        confm.innerHTML = confm.innerHTML + tag;
+      });
+      div_content.innerHTML =
+        div_content.innerHTML +
+        '<button type="button" id="BtnRejectConsent">ปฏิเสธ</button><button type="button" id="BtnSaveConsent">ยอมรับ</button><br>';
+    }
+  };
+  xhr.open('POST', req_url, true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.setRequestHeader('tenant', 'TSpace');
+  xhr.setRequestHeader('location', 'LineOA Zeatunaessence');
+  xhr.setRequestHeader('contact', cid);
+  xhr.setRequestHeader('sender', 'Thaibev-it');
+  xhr.setRequestHeader('signature', tk);
+  xhr.setRequestHeader('SecretKey', '1TTh@ib3v');
+  xhr.send(JSON.stringify(json_req));
+}
