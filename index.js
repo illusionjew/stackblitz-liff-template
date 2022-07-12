@@ -34,14 +34,13 @@ async function main() {
     withLoginOnExternalBrowser: true,
   });
   if (liff.isLoggedIn()) {
+    // getUserProfile();
     if (liff.isInClient()) {
       getUserProfile();
-      // document.getElementById('content-body').innerHTML =
-      //   '<h1 class="AlreadyRegister">Hello</h1>';
     } else {
       const div_content = document.getElementById('content-body');
       div_content.innerHTML =
-        '<h1 class="AlreadyRegister">กรุณาเปิด Liff ด้วย Line Application</h1>';
+        '<h1 class="AlreadyRegister">กรุณาเปิด Link ด้วย Line Application</h1>';
     }
   } else {
     liff.login({ redirectUri: 'https://js-3qgzyv.stackblitz.io/?cache=102' });
@@ -55,9 +54,8 @@ async function getUserProfile() {
   // user_profile.displayName;
   // user_profile.statusMessage;
 
-  // fetchConsent(user_profile.userId);
-  fetchConsent('mockuserid05'); // change before test
-  // return user_profile.userId;
+  fetchConsent(user_profile.userId);
+  // fetchConsent('mockuserid07'); // change before test
 }
 
 function filterDistrict() {
@@ -219,7 +217,7 @@ function genTK(contact) {
 }
 
 function submitForm(cid) {
-  let req_url = 'https://ai-services.tspace.tech/zeatuna/customer/';
+  let req_url = 'https://ai-services.tspace.tech/zeatuna/customer/save';
   let prefix_sel = document.getElementById('PrefixSelector').value;
   if (prefix_sel == 'อื่น ๆ') {
     prefix_sel = document.getElementById('PrefixInput').value;
@@ -332,7 +330,7 @@ function fetchConsent(cid) {
           resp.submitText +
           '</button><br>';
         document.getElementById('ConsentId1').onclick = () => {
-          enableSaveBtn();
+          enableSaveConsentBtn();
         };
         document.getElementById('BtnRejectConsent').onclick = () => {
           liff.closeWindow();
@@ -354,7 +352,7 @@ function fetchConsent(cid) {
   xhr.send(JSON.stringify(json_req));
 }
 
-function enableSaveBtn() {
+function enableSaveConsentBtn() {
   const req_chk = document.getElementById('ConsentId1');
   if (req_chk.checked) {
     document.getElementById('BtnSaveConsent').disabled = false;
@@ -383,7 +381,6 @@ function saveConsent(fetch_json, tk) {
   xhr.onload = function () {
     if (xhr.status == 200) {
       console.log('success');
-      // replace a register form here
       initialRegistrationForm(fetch_json.userId);
     } else {
       const resp = JSON.parse(xhr.response);
