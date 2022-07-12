@@ -33,7 +33,13 @@ async function main() {
     liffId: '1657263880-bNJ3z7yx',
     withLoginOnExternalBrowser: true,
   });
-  getUserProfile();
+  if (liff.isInClient()) {
+    getUserProfile();
+  } else {
+    const div_content = document.getElementById('content-body');
+    div_content.innerHTML =
+      '<h1 class="AlreadyRegister">กรุณาเปิด Liff ด้วย Line Application</h1>';
+  }
   // document
   //   .querySelector('meta[name="header_id"]')
   //   .setAttribute('content', genTK(cid));
