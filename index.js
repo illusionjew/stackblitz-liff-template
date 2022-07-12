@@ -33,12 +33,18 @@ async function main() {
     liffId: '1657263880-bNJ3z7yx',
     withLoginOnExternalBrowser: true,
   });
-  if (liff.isInClient()) {
-    getUserProfile();
+  if (liff.isLoggedIn()) {
+    if (liff.isInClient()) {
+      // getUserProfile();
+      document.getElementById('content-body').innerHTML =
+        '<h1 class="AlreadyRegister">Hello</h1>';
+    } else {
+      const div_content = document.getElementById('content-body');
+      div_content.innerHTML =
+        '<h1 class="AlreadyRegister">กรุณาเปิด Liff ด้วย Line Application</h1>';
+    }
   } else {
-    const div_content = document.getElementById('content-body');
-    div_content.innerHTML =
-      '<h1 class="AlreadyRegister">กรุณาเปิด Liff ด้วย Line Application</h1>';
+    liff.login({ redirectUri: 'https://js-3qgzyv.stackblitz.io' });
   }
   // document
   //   .querySelector('meta[name="header_id"]')
