@@ -42,7 +42,6 @@ async function main() {
   // document
   //   .querySelector('meta[name="header_id"]')
   //   .setAttribute('content', genTK(cid));
-  // fetchConsent(cid);
   // initialBirthSelector();
   // initialBoundarySelector();
 }
@@ -50,12 +49,91 @@ main();
 
 async function getUserProfile() {
   const user_profile = await liff.getProfile();
-  // document.getElementById('ClientId').value = user_profile.userId;
   // user_profile.pictureUrl;
   // user_profile.displayName;
   // user_profile.statusMessage;
   fetchConsent(user_profile.userId);
   return user_profile.userId;
+}
+
+function filterDistrict() {
+  let prov_sel = document.getElementById('ProvinceSelector').value;
+  const dist_selector = document.getElementById('DistrictSelector');
+  dist_selector.innerHTML = '';
+  document.getElementById('SubdistrictSelector').innerHTML =
+    '<option selected>เลือกตำบล/แขวง</option>';
+  if (prov_sel != 'เลือกจังหวัด') {
+    let sct = '.' + prov_sel;
+    let opts = document.querySelectorAll(sct);
+    opts.forEach((o) => dist_selector.appendChild(o));
+  }
+}
+
+function filterSubdistrict() {
+  let prov_sel = document.getElementById('ProvinceSelector').value;
+  let dist_sel = document.getElementById('DistrictSelector').value;
+  const subd_selector = document.getElementById('SubdistrictSelector');
+  subd_selector.innerHTML = '';
+  if (prov_sel != 'เลือกจังหวัด') {
+    let sct = '.' + prov_sel + '-' + dist_sel;
+    let opts = document.querySelectorAll(sct);
+    opts.forEach((o) => subd_selector.appendChild(o));
+  }
+}
+
+function togglePrefixInput() {
+  let prefix_selected = document.getElementById('PrefixSelector').value;
+  if (prefix_selected == 'อื่น ๆ') {
+    document.getElementById('PrefixnameDiv').style.display = 'block';
+  } else {
+    document.getElementById('PrefixnameDiv').style.display = 'none';
+  }
+}
+
+function dateFilterByMonth() {
+  const date_selector = document.getElementById('BirthDateSelector');
+  let mth_selected = document.getElementById('BirthMonthSelector').value;
+  let yrs_selected = document.getElementById('BirthYearSelector').value;
+
+  if (document.getElementById('date29') == undefined) {
+    let opt29 = document.createElement('option');
+    opt29.text = 29;
+    opt29.value = 29;
+    opt29.id = 'date29';
+    date_selector.appendChild(opt29);
+  }
+
+  if (document.getElementById('date30') == undefined) {
+    let opt30 = document.createElement('option');
+    opt30.text = 30;
+    opt30.value = 30;
+    opt30.id = 'date30';
+    date_selector.appendChild(opt30);
+  }
+
+  if (document.getElementById('date31') == undefined) {
+    let opt31 = document.createElement('option');
+    opt31.text = 31;
+    opt31.value = 31;
+    opt31.id = 'date31';
+    date_selector.appendChild(opt31);
+  }
+
+  if (['2', '4', '6', '9', '11'].includes(mth_selected)) {
+    if (document.getElementById('date31') != undefined) {
+      date_selector.removeChild(document.getElementById('date31'));
+    }
+
+    if (mth_selected == '2') {
+      date_selector.removeChild(document.getElementById('date30'));
+      if (yrs_selected != 'yyyy') {
+        let y = parseInt(yrs_selected);
+        if (!((y % 4 == 0 && y % 100) || y % 400 == 0)) {
+          date_selector.removeChild(document.getElementById('date29'));
+        }
+      }
+    }
+  }
 }
 
 function initialBirthSelector() {
@@ -212,6 +290,7 @@ function fetchConsent(cid) {
   xhr.onload = function () {
     if (xhr.status == 200) {
       const resp = JSON.parse(xhr.response);
+      console.log(resp);
       const div_content = document.getElementById('content-body');
       div_content.innerHTML =
         resp.content + '<br><form id="ConsentForm"></form>';
@@ -233,7 +312,20 @@ function fetchConsent(cid) {
       });
       div_content.innerHTML =
         div_content.innerHTML +
-        '<button type="button" id="BtnRejectConsent">ปฏิเสธ</button><button type="button" id="BtnSaveConsent" disabled>ยอมรับ</button><br>';
+        '<button type="button" id="BtnRejectConsent">' +
+        resp.cancelText +
+        '</button><button type="button" id="BtnSaveConsent" disabled>' +
+        resp.submitText +
+        '</button><br>';
+      document.getElementById('ConsentId1').onclick = () => {
+        enableSaveBtn();
+      };
+      document.getElementById('BtnRejectConsent').onclick = () => {
+        liff.closeWindow();
+      };
+      document.getElementById('BtnSaveConsent').onclick = () => {
+        saveConsent(resp, tk);
+      };
     }
   };
   xhr.open('POST', req_url, true);
@@ -241,6 +333,54 @@ function fetchConsent(cid) {
   xhr.setRequestHeader('tenant', 'TSpace');
   xhr.setRequestHeader('location', 'LineOA Zeatunaessence');
   xhr.setRequestHeader('contact', cid);
+  xhr.setRequestHeader('sender', 'Thaibev-it');
+  xhr.setRequestHeader('signature', tk);
+  xhr.setRequestHeader('SecretKey', '1TTh@ib3v');
+  xhr.send(JSON.stringify(json_req));
+}
+
+function enableSaveBtn() {
+  const req_chk = document.getElementById('ConsentId1');
+  if (req_chk.checked) {
+    document.getElementById('BtnSaveConsent').disabled = false;
+  } else {
+    document.getElementById('BtnSaveConsent').disabled = true;
+  }
+}
+
+function saveConsent(fetch_json, tk) {
+  let req_url =
+    'https://oth1uat.apps.thaibev.com/thaibevconsentapi/v1/Content/SaveConsentByUser';
+  let consent1 = document.getElementById('ConsentId1').checked ? 'Yes' : 'No';
+  let consent2 = document.getElementById('ConsentId2').checked ? 'Yes' : 'No';
+  let consent3 = document.getElementById('ConsentId3').checked ? 'Yes' : 'No';
+  let json_req = {
+    appId: fetch_json.appId,
+    userId: fetch_json.userId,
+    consentId: fetch_json.consentId,
+    consentDtlId: fetch_json.consentDtlId,
+    userFullName: fetch_json.userId,
+    consentIds: '1,2,3',
+    consentSignature: '',
+    approveReject: consent1 + ',' + consent2 + ',' + consent3,
+  };
+  let xhr = new XMLHttpRequest();
+  xhr.onload = function () {
+    if (xhr.status == 200) {
+      console.log('success');
+      const resp = JSON.parse(xhr.response);
+      // replace a register form here
+      console.log(resp);
+    } else {
+      const resp = JSON.parse(xhr.response);
+      console.log(resp);
+    }
+  };
+  xhr.open('POST', req_url, true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.setRequestHeader('tenant', 'TSpace');
+  xhr.setRequestHeader('location', 'LineOA Zeatunaessence');
+  xhr.setRequestHeader('contact', fetch_json.userId);
   xhr.setRequestHeader('sender', 'Thaibev-it');
   xhr.setRequestHeader('signature', tk);
   xhr.setRequestHeader('SecretKey', '1TTh@ib3v');
