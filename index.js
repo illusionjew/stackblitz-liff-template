@@ -165,7 +165,7 @@ function submitForm() {
       first_name: firstname_val,
       last_name: surname_val,
       nick_name: document.getElementById('NucknameInput').value,
-      gender: $('#GenderSelector input:radio:checked').val(),
+      gender: document.querySelector('input.form-check-input:checked').value,
       birthdate: y_val + '-' + m_val + '-' + d_val,
       phone_number: phone_val,
       email: document.getElementById('EmailInput').value,
@@ -177,21 +177,15 @@ function submitForm() {
     };
     console.log(json_data);
 
-    $.ajax({
-      type: 'POST',
-      url: req_url,
-      contentType: 'application/json',
-      // headers: { apikey: api_key },
-      dataType: 'json',
-      data: JSON.stringify(json_data),
-      success: function (response) {
-        alert('ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรมกับเรา');
-        liff.closeWindow();
-      },
-      error: function (err) {
-        console.log(err);
-      },
-    });
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      console.log(this.getAllResponseHeaders());
+      // alert('ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรมกับเรา');
+      // liff.closeWindow();
+    };
+    xhr.open('POST', req_url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(json_data));
   } else {
     alert('กรุณากรอกข้อมูลในช่องที่มีเครื่องหมาย * ให้ครบถ้วน');
   }
