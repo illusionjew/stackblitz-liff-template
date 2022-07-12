@@ -10,6 +10,9 @@ const province_array = boundary_data.Province;
 const district_array = boundary_data.District;
 const subdistrict_array = boundary_data.Subdistrict;
 
+const form_body_html =
+  '<div class="form-title">ลงทะเบียนสมัครสมาชิก</div><div class="form-subtitle">กรุณากรอกข้อมูลในช่องที่มี * ทุกช่อง</div><form id="CampaignRegistration"class="form-body needs-validation" novalidate><div class="mb-2"><label class="form-label">คำนำหน้าชื่อ *</label><select id="PrefixSelector" class="form-select form-select-sm" ><option selected>เลือกคำนำหน้าชื่อ</option><option value="นาย">นาย</option><option value="นางสาว">นางสาว</option><option value="นาง">นาง</option><option value="อื่น ๆ">อื่น ๆ</option></select><div class="invalid-feedback">กรุณาเลือกคำนำหน้าชื่อ</div></div><div id="PrefixnameDiv" class="mb-2"><label class="form-label">โปรดระบุ</label><input id="PrefixInput" type="text" class="form-control form-control-sm" /></div><div class="mb-2"><label class="form-label">ชื่อ *</label><input id="FirstnameInput" type="text" class="form-control form-control-sm" /><div class="invalid-feedback">กรุณากรอกชื่อ</div></div><div class="mb-2"><label class="form-label">นามสกุล *</label><input id="SurnameInput" type="text" class="form-control form-control-sm" /><div class="invalid-feedback">กรุณากรอกนามสกุล</div></div><div class="mb-2"><label class="form-label">ชื่อเล่น</label><input id="NucknameInput" type="text" class="form-control form-control-sm" /></div><div class="mb-2"><label class="form-label">เพศ</label><div id="GenderSelector" class="form-control form-control-sm gender-radio"><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="genderOptions" id="inlineRadio1" value="Male" checked /><label class="form-check-label" for="inlineRadio1">ชาย</label></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="genderOptions" id="inlineRadio2" value="Female" /><label class="form-check-label" for="inlineRadio2">หญิง</label></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="genderOptions" id="inlineRadio3" value="Other" /><label class="form-check-label" for="inlineRadio3">ไม่ระบุ</label></div></div><div class="invalid-feedback">กรุณาเลือกเพศ</div></div><div class="mb-2"><label class="form-label">วันเดือนปีเกิด *</label><div class="input-group"><select class="form-select form-select-sm" id="BirthDateSelector"><option selected>dd</option></select><select class="form-select form-select-sm" id="BirthMonthSelector"><option selected>mm</option></select><select class="form-select form-select-sm" id="BirthYearSelector"><option selected>yyyy</option></select></div><div class="invalid-feedback">กรุณาระบุวันเกิด</div></div><div class="mb-2"><label class="form-label">เบอร์โทร *</label><input id="PhoneInput" type="tel" class="form-control form-control-sm" /><div class="invalid-feedback">กรุณากรอกเบอร์โทร</div></div><div class="mb-2"><label class="form-label">email</label><input id="EmailInput" type="email" class="form-control form-control-sm" /></div><div class="mb-2"><label class="form-label">ที่อยู่ *</label><textarea id="AddressInput" class="form-control form-control-sm" rows="2"></textarea><div class="invalid-feedback">กรุณากรอกที่อยู่</div></div><div class="mb-2"><label class="form-label">จังหวัด *</label><select id="ProvinceSelector" class="form-select form-select-sm"><option selected>เลือกจังหวัด</option></select><div class="invalid-feedback">กรุณาเลือกจังหวัด</div></div><div class="mb-2"><label class="form-label">อำเภอ/เขต *</label><select id="DistrictSelector" class="form-select form-select-sm"><option selected>เลือกอำเภอ/เขต</option></select><div class="invalid-feedback">กรุณาเลือกอำเภอ/เขต</div></div><div class="mb-2"><label class="form-label">ตำบล/แขวง *</label><select id="SubdistrictSelector" class="form-select form-select-sm"><option selected>เลือกตำบล/แขวง</option></select><div class="invalid-feedback">กรุณาเลือกตำบล/แขวง</div></div><div class="mb-2"><label class="form-label">รหัสไปรษณีย์ *</label><input id="PostcodeInput" type="tel" class="form-control form-control-sm" /><div class="invalid-feedback">กรุณากรอกรหัสไปรษณีย์</div></div><div class="mb-2"><button id="SubmitForm" class="btn form-control btn-registration" type="button">ลงทะเบียน</button></div></form>';
+
 const month_dict = {
   1: 'มกราคม',
   2: 'กุมภาพันธ์',
@@ -25,20 +28,12 @@ const month_dict = {
   12: 'ธันวาคม',
 };
 
-// get html element
-const birth_date_selector = document.getElementById('BirthDateSelector');
-const birth_month_selector = document.getElementById('BirthMonthSelector');
-const birth_year_selector = document.getElementById('BirthYearSelector');
-const province_selector = document.getElementById('ProvinceSelector');
-const district_selector = document.getElementById('DistrictData');
-const subdistrict_selector = document.getElementById('SubdistrictData');
-
 async function main() {
   await liff.init({
     liffId: '1657263880-bNJ3z7yx',
     withLoginOnExternalBrowser: true,
   });
-  const cid = getUserProfile();
+  getUserProfile();
   // document
   //   .querySelector('meta[name="header_id"]')
   //   .setAttribute('content', genTK(cid));
@@ -52,8 +47,10 @@ async function getUserProfile() {
   // user_profile.pictureUrl;
   // user_profile.displayName;
   // user_profile.statusMessage;
-  fetchConsent(user_profile.userId);
-  return user_profile.userId;
+
+  // fetchConsent(user_profile.userId);
+  fetchConsent('mockuserid03'); // change before test
+  // return user_profile.userId;
 }
 
 function filterDistrict() {
@@ -138,6 +135,9 @@ function dateFilterByMonth() {
 
 function initialBirthSelector() {
   const current = new Date();
+  const birth_date_selector = document.getElementById('BirthDateSelector');
+  const birth_month_selector = document.getElementById('BirthMonthSelector');
+  const birth_year_selector = document.getElementById('BirthYearSelector');
   for (let i = current.getFullYear(); i > 1930; i--) {
     var option = document.createElement('option');
     option.text = i + 543;
@@ -164,6 +164,9 @@ function initialBirthSelector() {
 }
 
 function initialBoundarySelector() {
+  const province_selector = document.getElementById('ProvinceSelector');
+  const district_selector = document.getElementById('DistrictData');
+  const subdistrict_selector = document.getElementById('SubdistrictData');
   let province_sorted = province_array.sort((a, b) =>
     a.name_th > b.name_th ? 1 : b.name_th > a.name_th ? -1 : 0
   );
@@ -208,7 +211,7 @@ function genTK(contact) {
   return hash;
 }
 
-function submitForm() {
+function submitForm(cid) {
   let req_url = 'https://ai-services.tspace.tech/zeatuna/customer/';
   let prefix_sel = document.getElementById('PrefixSelector').value;
   if (prefix_sel == 'อื่น ๆ') {
@@ -240,7 +243,7 @@ function submitForm() {
     y_val != 'yyyy'
   ) {
     let json_data = {
-      line_id: document.getElementById('ClientId').value,
+      line_id: cid,
       title: prefix_sel,
       first_name: firstname_val,
       last_name: surname_val,
@@ -259,9 +262,13 @@ function submitForm() {
 
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
-      console.log(this.getAllResponseHeaders());
-      // alert('ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรมกับเรา');
-      // liff.closeWindow();
+      if (xhr.status == 200) {
+        alert('ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรมกับเรา');
+        liff.closeWindow();
+      } else {
+        const resp = JSON.parse(xhr.response);
+        console.log(resp);
+      }
     };
     xhr.open('POST', req_url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -270,10 +277,6 @@ function submitForm() {
     alert('กรุณากรอกข้อมูลในช่องที่มีเครื่องหมาย * ให้ครบถ้วน');
   }
 }
-
-// document.getElementById('SubmitForm').onclick = () => {
-//   submitForm();
-// };
 
 function fetchConsent(cid) {
   let tk = genTK(cid);
@@ -292,40 +295,45 @@ function fetchConsent(cid) {
       const resp = JSON.parse(xhr.response);
       console.log(resp);
       const div_content = document.getElementById('content-body');
-      div_content.innerHTML =
-        resp.content + '<br><form id="ConsentForm"></form>';
-      resp.consentList.forEach((item) => {
-        let confm = document.getElementById('ConsentForm');
-        let tag =
-          '<input type="checkbox" id="ConsentId' +
-          item.consentListId +
-          '" name="ConsentId' +
-          item.consentListId +
-          '" value="ConsentId' +
-          item.consentListId +
-          '"><label style="display: inline !important; width:90%;" for="ConsentId' +
-          item.consentListId +
-          '">' +
-          item.description +
-          '</label><br>';
-        confm.innerHTML = confm.innerHTML + tag;
-      });
-      div_content.innerHTML =
-        div_content.innerHTML +
-        '<button type="button" id="BtnRejectConsent">' +
-        resp.cancelText +
-        '</button><button type="button" id="BtnSaveConsent" disabled>' +
-        resp.submitText +
-        '</button><br>';
-      document.getElementById('ConsentId1').onclick = () => {
-        enableSaveBtn();
-      };
-      document.getElementById('BtnRejectConsent').onclick = () => {
-        liff.closeWindow();
-      };
-      document.getElementById('BtnSaveConsent').onclick = () => {
-        saveConsent(resp, tk);
-      };
+      if (resp.appId == null) {
+        div_content.innerHTML =
+          '<h1 class="AlreadyRegister">คุณเคยลงทะเบียนไว้แล้ว<br>ขอบคุณที่สนับสนุน ZEA Tuna Essence</h1>';
+      } else {
+        div_content.innerHTML =
+          resp.content + '<br><form id="ConsentForm"></form>';
+        resp.consentList.forEach((item) => {
+          let confm = document.getElementById('ConsentForm');
+          let tag =
+            '<input type="checkbox" id="ConsentId' +
+            item.consentListId +
+            '" name="ConsentId' +
+            item.consentListId +
+            '" value="ConsentId' +
+            item.consentListId +
+            '"><label style="display: inline !important; width:90%;" for="ConsentId' +
+            item.consentListId +
+            '">' +
+            item.description +
+            '</label><br>';
+          confm.innerHTML = confm.innerHTML + tag;
+        });
+        div_content.innerHTML =
+          div_content.innerHTML +
+          '<button type="button" id="BtnRejectConsent">' +
+          resp.cancelText +
+          '</button><button type="button" id="BtnSaveConsent" disabled>' +
+          resp.submitText +
+          '</button><br>';
+        document.getElementById('ConsentId1').onclick = () => {
+          enableSaveBtn();
+        };
+        document.getElementById('BtnRejectConsent').onclick = () => {
+          liff.closeWindow();
+        };
+        document.getElementById('BtnSaveConsent').onclick = () => {
+          saveConsent(resp, tk);
+        };
+      }
     }
   };
   xhr.open('POST', req_url, true);
@@ -368,9 +376,8 @@ function saveConsent(fetch_json, tk) {
   xhr.onload = function () {
     if (xhr.status == 200) {
       console.log('success');
-      const resp = JSON.parse(xhr.response);
       // replace a register form here
-      console.log(resp);
+      initialRegistrationForm(fetch_json.userId);
     } else {
       const resp = JSON.parse(xhr.response);
       console.log(resp);
@@ -385,4 +392,30 @@ function saveConsent(fetch_json, tk) {
   xhr.setRequestHeader('signature', tk);
   xhr.setRequestHeader('SecretKey', '1TTh@ib3v');
   xhr.send(JSON.stringify(json_req));
+}
+
+function initialRegistrationForm(cid) {
+  const div_content = document.getElementById('content-body');
+  div_content.innerHTML = form_body_html;
+  initialBirthSelector();
+  initialBoundarySelector();
+
+  document.getElementById('PrefixSelector').onchange = () => {
+    togglePrefixInput();
+  };
+  document.getElementById('BirthMonthSelector').onchange = () => {
+    dateFilterByMonth();
+  };
+  document.getElementById('BirthYearSelector').onchange = () => {
+    dateFilterByMonth();
+  };
+  document.getElementById('ProvinceSelector').onchange = () => {
+    filterDistrict();
+  };
+  document.getElementById('DistrictSelector').onchange = () => {
+    filterSubdistrict();
+  };
+  document.getElementById('SubmitForm').onclick = () => {
+    submitForm(cid);
+  };
 }
