@@ -35,9 +35,9 @@ async function main() {
   });
   if (liff.isLoggedIn()) {
     if (liff.isInClient()) {
-      // getUserProfile();
-      document.getElementById('content-body').innerHTML =
-        '<h1 class="AlreadyRegister">Hello</h1>';
+      getUserProfile();
+      // document.getElementById('content-body').innerHTML =
+      //   '<h1 class="AlreadyRegister">Hello</h1>';
     } else {
       const div_content = document.getElementById('content-body');
       div_content.innerHTML =
@@ -46,11 +46,6 @@ async function main() {
   } else {
     liff.login({ redirectUri: 'https://js-3qgzyv.stackblitz.io' });
   }
-  // document
-  //   .querySelector('meta[name="header_id"]')
-  //   .setAttribute('content', genTK(cid));
-  // initialBirthSelector();
-  // initialBoundarySelector();
 }
 main();
 
@@ -61,7 +56,7 @@ async function getUserProfile() {
   // user_profile.statusMessage;
 
   // fetchConsent(user_profile.userId);
-  fetchConsent('mockuserid03'); // change before test
+  fetchConsent('mockuserid04'); // change before test
   // return user_profile.userId;
 }
 
