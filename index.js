@@ -44,7 +44,7 @@ async function main() {
         '<h1 class="AlreadyRegister">กรุณาเปิด Liff ด้วย Line Application</h1>';
     }
   } else {
-    liff.login({ redirectUri: 'https://js-3qgzyv.stackblitz.io' });
+    liff.login({ redirectUri: 'https://js-3qgzyv.stackblitz.io/?cache=102' });
   }
 }
 main();
