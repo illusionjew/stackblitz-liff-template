@@ -56,7 +56,7 @@ async function getUserProfile() {
   // user_profile.statusMessage;
 
   // fetchConsent(user_profile.userId);
-  fetchConsent('mockuserid04'); // change before test
+  fetchConsent('mockuserid05'); // change before test
   // return user_profile.userId;
 }
 
