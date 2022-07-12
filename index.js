@@ -224,16 +224,16 @@ function fetchConsent(cid) {
           item.consentListId +
           '" value="ConsentId' +
           item.consentListId +
-          '"><label for="ConsentId' +
+          '"><label style="display: inline !important; width:90%;" for="ConsentId' +
           item.consentListId +
-          '">&nbsp;&nbsp;' +
+          '">' +
           item.description +
           '</label><br>';
         confm.innerHTML = confm.innerHTML + tag;
       });
       div_content.innerHTML =
         div_content.innerHTML +
-        '<button type="button" id="BtnRejectConsent">ปฏิเสธ</button><button type="button" id="BtnSaveConsent">ยอมรับ</button><br>';
+        '<button type="button" id="BtnRejectConsent">ปฏิเสธ</button><button type="button" id="BtnSaveConsent" disabled>ยอมรับ</button><br>';
     }
   };
   xhr.open('POST', req_url, true);

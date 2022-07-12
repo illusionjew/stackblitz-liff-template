@@ -90,3 +90,8 @@ tr {
   color: white;
   background-color: #002d74;
 }
+
+#BtnSaveConsent:disabled {
+  color: white;
+  background-color: gray;
+}
