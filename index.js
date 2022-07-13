@@ -59,7 +59,7 @@ async function getUserProfile() {
   // user_profile.statusMessage;
 
   fetchConsent(user_profile.userId);
-  // fetchConsent('mockuserid10'); // change before test
+  // fetchConsent('mockuserid11'); // change before test
 }
 
 function filterDistrict() {
