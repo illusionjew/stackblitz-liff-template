@@ -359,6 +359,12 @@ function fetchConsent(cid) {
         document.getElementById('ConsentId1').onclick = () => {
           enableSaveConsentBtn();
         };
+        document.getElementById('ConsentId2').onclick = () => {
+          enableSaveConsentBtn();
+        };
+        document.getElementById('ConsentId3').onclick = () => {
+          enableSaveConsentBtn();
+        };
         document.getElementById('BtnRejectConsent').onclick = () => {
           liff.closeWindow();
         };
@@ -380,8 +386,10 @@ function fetchConsent(cid) {
 }
 
 function enableSaveConsentBtn() {
-  const req_chk = document.getElementById('ConsentId1');
-  if (req_chk.checked) {
+  const chk1 = document.getElementById('ConsentId1');
+  const chk2 = document.getElementById('ConsentId2');
+  const chk3 = document.getElementById('ConsentId3');
+  if (chk1.checked && chk2.checked && chk3.checked) {
     document.getElementById('BtnSaveConsent').disabled = false;
   } else {
     document.getElementById('BtnSaveConsent').disabled = true;
