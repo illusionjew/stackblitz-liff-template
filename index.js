@@ -59,7 +59,7 @@ async function getUserProfile() {
   // user_profile.statusMessage;
 
   fetchConsent(user_profile.userId);
-  // fetchConsent('mockuserid09'); // change before test
+  // fetchConsent('mockuserid10'); // change before test
 }
 
 function filterDistrict() {
@@ -320,30 +320,36 @@ function fetchConsent(cid) {
           '<h1 class="AlreadyRegister">คุณเคยลงทะเบียนไว้แล้ว<br>ขอบคุณที่สนับสนุน ZEA Tuna Essence</h1>';
       } else {
         div_content.innerHTML =
-          resp.content + '<br><form id="ConsentForm"></form>';
+          '<div class="container-md form-container" id="content-body"><div class="modal show-modal" tabindex="-1"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content" style="height: 90%"><div class="modal-body">' +
+          resp.content +
+          '<br><table class="table-consent"><tbody id="TableBodyConsent"></tbody></table></div><div id="FooterConsent" class="modal-footer modal-footer-style"></div></div></div></div>';
+
+        // for loop consent item append to table
         resp.consentList.forEach((item) => {
-          let confm = document.getElementById('ConsentForm');
+          let confm = document.getElementById('TableBodyConsent');
           let tag =
-            '<input type="checkbox" id="ConsentId' +
+            '<tr><td>' +
+            item.description +
+            '</td><td><label class="switch"><input type="checkbox" id="ConsentId' +
             item.consentListId +
             '" name="ConsentId' +
             item.consentListId +
             '" value="ConsentId' +
             item.consentListId +
-            '"><label style="display: inline !important; width:90%;" for="ConsentId' +
-            item.consentListId +
-            '">' +
-            item.description +
-            '</label><br>';
+            '" /><span class="slider round"></span></label></td></tr><tr><td></td></tr>';
           confm.innerHTML = confm.innerHTML + tag;
         });
-        div_content.innerHTML =
-          div_content.innerHTML +
-          '<button type="button" id="BtnRejectConsent">' +
+
+        // add innerHTML to FooterConsent
+        let ft = document.getElementById('FooterConsent');
+        ft.innerHTML =
+          '<div class="consentBtn"><button type="button" id="BtnRejectConsent">' +
           resp.cancelText +
-          '</button><button type="button" id="BtnSaveConsent" disabled>' +
+          '</button></div><div class="consentBtn"><button type="button" id="BtnSaveConsent" disabled>' +
           resp.submitText +
-          '</button><br>';
+          '</button></div>';
+
+        // add listener funtion to each button
         document.getElementById('ConsentId1').onclick = () => {
           enableSaveConsentBtn();
         };
