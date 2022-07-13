@@ -5,6 +5,7 @@ import './style.css';
 import liff from '@line/liff';
 
 import boundary_data from './assets/province.json';
+import app_config from './assets/app_config.json';
 
 const province_array = boundary_data.Province;
 const district_array = boundary_data.District;
@@ -30,7 +31,7 @@ const month_dict = {
 
 async function main() {
   await liff.init({
-    liffId: '1657263880-bNJ3z7yx',
+    liffId: app_config.LineConf.LiffId,
     withLoginOnExternalBrowser: true,
   });
   if (liff.isLoggedIn()) {
@@ -43,7 +44,7 @@ async function main() {
         '<h1 class="AlreadyRegister">กรุณาเปิด Link ด้วย Line Application</h1>';
     }
   } else {
-    liff.login({ redirectUri: 'https://js-3qgzyv.stackblitz.io/?cache=102' });
+    liff.login({ redirectUri: app_config.LineConf.RedirectUri });
   }
 }
 main();
@@ -61,7 +62,7 @@ async function getUserProfile() {
 function filterDistrict() {
   let prov_sel = document.getElementById('ProvinceSelector').value;
   const dist_selector = document.getElementById('DistrictSelector');
-  dist_selector.innerHTML = '';
+  dist_selector.innerHTML = '<option selected>เลือกอำเภอ/เขต</option>';
   document.getElementById('SubdistrictSelector').innerHTML =
     '<option selected>เลือกตำบล/แขวง</option>';
   if (prov_sel != 'เลือกจังหวัด') {
@@ -75,7 +76,7 @@ function filterSubdistrict() {
   let prov_sel = document.getElementById('ProvinceSelector').value;
   let dist_sel = document.getElementById('DistrictSelector').value;
   const subd_selector = document.getElementById('SubdistrictSelector');
-  subd_selector.innerHTML = '';
+  subd_selector.innerHTML = '<option selected>เลือกตำบล/แขวง</option>';
   if (prov_sel != 'เลือกจังหวัด') {
     let sct = '.' + prov_sel + '-' + dist_sel;
     let opts = document.querySelectorAll(sct);
@@ -202,22 +203,22 @@ function initialBoundarySelector() {
 
 function genTK(contact) {
   let crypto = require('crypto');
-  let tenant = 'TSpace';
-  let location = 'LineOA Zeatunaessence';
+  let tenant = app_config.Consent.Tenant;
+  let location = app_config.Consent.Location;
   let t = new Date();
   let date = ('0' + t.getDate()).slice(-2);
   let month = ('0' + (t.getMonth() + 1)).slice(-2);
   let year = t.getFullYear();
   let body = `${location}${contact}${tenant}${year}${month}${date}`;
   let hash = crypto
-    .createHmac('SHA256', '1TTh@ib3v')
+    .createHmac('SHA256', app_config.Consent.EncryptKey)
     .update(body)
     .digest('base64');
   return hash;
 }
 
 function submitForm(cid) {
-  let req_url = 'https://ai-services.tspace.tech/zeatuna/customer/save';
+  let req_url = app_config.Service.BaseURL + '/customer/save';
   let prefix_sel = document.getElementById('PrefixSelector').value;
   if (prefix_sel == 'อื่น ๆ') {
     prefix_sel = document.getElementById('PrefixInput').value;
@@ -285,10 +286,9 @@ function submitForm(cid) {
 
 function fetchConsent(cid) {
   let tk = genTK(cid);
-  let req_url =
-    'https://oth1uat.apps.thaibev.com/thaibevconsentapi/v1/Content/GetConsentByApp';
+  let req_url = app_config.Consent.BaseURL + '/v1/Content/GetConsentByApp';
   let json_req = {
-    appCode: '54BCA334-D935-4F52-9187-EE080F1C22F2',
+    appCode: app_config.Consent.AppCode,
     userId: cid,
     lang: 'th',
     isRegister: 'true',
@@ -362,8 +362,7 @@ function enableSaveConsentBtn() {
 }
 
 function saveConsent(fetch_json, tk) {
-  let req_url =
-    'https://oth1uat.apps.thaibev.com/thaibevconsentapi/v1/Content/SaveConsentByUser';
+  let req_url = app_config.Consent.BaseURL + '/v1/Content/SaveConsentByUser';
   let consent1 = document.getElementById('ConsentId1').checked ? 'Yes' : 'No';
   let consent2 = document.getElementById('ConsentId2').checked ? 'Yes' : 'No';
   let consent3 = document.getElementById('ConsentId3').checked ? 'Yes' : 'No';
