@@ -4,6 +4,9 @@ import './style.css';
 // Import LIFF
 import liff from '@line/liff';
 
+// Import jquery
+import $ from 'jquery';
+
 import boundary_data from './assets/province.json';
 import app_config from './assets/app_config.json';
 
@@ -56,7 +59,7 @@ async function getUserProfile() {
   // user_profile.statusMessage;
 
   fetchConsent(user_profile.userId);
-  // fetchConsent('mockuserid07'); // change before test
+  // fetchConsent('mockuserid09'); // change before test
 }
 
 function filterDistrict() {
@@ -264,21 +267,34 @@ function submitForm(cid) {
       sub_district: subd_val,
       postcode: postcode_val,
     };
-    console.log(json_data);
 
-    let xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      if (xhr.status == 200) {
+    // let xhr = new XMLHttpRequest();
+    // xhr.onload = function () {
+    //   if (xhr.status == 200) {
+    //     alert('ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรมกับเรา');
+    //     liff.closeWindow();
+    //   } else {
+    //     const resp = JSON.parse(xhr.response);
+    //     console.log(resp);
+    //   }
+    // };
+    // xhr.open('POST', req_url, true);
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.send(JSON.stringify(json_data));
+
+    $.ajax({
+      type: 'POST',
+      url: req_url,
+      dataType: 'json',
+      data: json_data,
+      success: function (response) {
         alert('ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรมกับเรา');
         liff.closeWindow();
-      } else {
-        const resp = JSON.parse(xhr.response);
-        console.log(resp);
-      }
-    };
-    xhr.open('POST', req_url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(json_data));
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
   } else {
     alert('กรุณากรอกข้อมูลในช่องที่มีเครื่องหมาย * ให้ครบถ้วน');
   }
@@ -298,7 +314,6 @@ function fetchConsent(cid) {
   xhr.onload = function () {
     if (xhr.status == 200) {
       const resp = JSON.parse(xhr.response);
-      console.log(resp);
       const div_content = document.getElementById('content-body');
       if (resp.appId == null) {
         div_content.innerHTML =
@@ -379,7 +394,6 @@ function saveConsent(fetch_json, tk) {
   let xhr = new XMLHttpRequest();
   xhr.onload = function () {
     if (xhr.status == 200) {
-      console.log('success');
       initialRegistrationForm(fetch_json.userId);
     } else {
       const resp = JSON.parse(xhr.response);
