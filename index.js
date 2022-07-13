@@ -316,8 +316,14 @@ function fetchConsent(cid) {
       const resp = JSON.parse(xhr.response);
       const div_content = document.getElementById('content-body');
       if (resp.appId == null) {
-        div_content.innerHTML =
-          '<h1 class="AlreadyRegister">คุณเคยลงทะเบียนไว้แล้ว<br>ขอบคุณที่สนับสนุน ZEA Tuna Essence</h1>';
+        // user already save consent
+        // verify that user registration
+        if (foundRegistration(cid)) {
+          div_content.innerHTML =
+            '<h1 class="AlreadyRegister">คุณเคยลงทะเบียนไว้แล้ว<br>ขอบคุณที่สนับสนุน ZEA Tuna Essence</h1>';
+        } else {
+          initialRegistrationForm(cid);
+        }
       } else {
         div_content.innerHTML =
           '<div class="container-md form-container" id="content-body"><div class="modal show-modal" tabindex="-1"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content" style="height: 90%"><div class="modal-body">' +
@@ -441,4 +447,12 @@ function initialRegistrationForm(cid) {
   document.getElementById('SubmitForm').onclick = () => {
     submitForm(cid);
   };
+}
+
+function foundRegistration(cid) {
+  let req_url = app_config.Service.BaseURL + '/customer/get/' + cid;
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', req_url, true);
+  xhr.send();
+  return xhr.status == 200 ? true : false;
 }
