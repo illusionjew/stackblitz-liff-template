@@ -12,14 +12,18 @@ tr {
   border-width: 1px !important;
 }
 
+#content {
+  max-height: 90vh;
+}
+
 .logo-center {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  height: 50px;
-  border-radius: 50%;
-  padding-top: 7px;
-  padding-bottom: 7px;
+  height: 70px;
+  /* border-radius: 50%;
+  padding-top: 4px;
+  padding-bottom: 4px; */
 }
 
 .navbar-style {
@@ -27,7 +31,7 @@ tr {
 }
 
 .form-container {
-  margin-top: 55px;
+  margin-top: 75px;
 }
 
 .form-title {
@@ -189,6 +193,7 @@ input:checked + .slider:before {
 
 .thank-you-image {
   align-items: center;
-  width: 50%;
-  height: 50%;
+  width: 20%;
+  height: 20%;
+  margin-top: 70%;
 }

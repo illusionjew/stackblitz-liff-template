@@ -38,14 +38,14 @@ async function main() {
     withLoginOnExternalBrowser: true,
   });
   if (liff.isLoggedIn()) {
-    getUserProfile();
-    // if (liff.isInClient()) {
-    //   getUserProfile();
-    // } else {
-    //   const div_content = document.getElementById('content-body');
-    //   div_content.innerHTML =
-    //     '<h1 class="AlreadyRegister">กรุณาเปิด Link ด้วย Line Application</h1>';
-    // }
+    // getUserProfile();
+    if (liff.isInClient()) {
+      getUserProfile();
+    } else {
+      const div_content = document.getElementById('content-body');
+      div_content.innerHTML =
+        '<h1 class="AlreadyRegister">กรุณาเปิด Link ด้วย Line Application</h1>';
+    }
   } else {
     liff.login({ redirectUri: app_config.LineConf.RedirectUri });
   }
@@ -58,9 +58,9 @@ async function getUserProfile() {
   // user_profile.displayName;
   // user_profile.statusMessage;
 
-  // fetchConsent(user_profile.userId);
-  // fetchConsent('mockuserid14'); // change before test
-  foundRegistration('mockuserid13');
+  fetchConsent(user_profile.userId);
+  // fetchConsent('mockuserid16'); // change before test full journey
+  // foundRegistration('mockuserid16'); // test register
 }
 
 function filterDistrict() {
@@ -283,9 +283,9 @@ function submitForm(cid) {
           // alert('ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรมกับเรา');
           // liff.closeWindow();
           document.getElementById('content-body').innerHTML =
-            '<h1 class="AlreadyRegister"><img class="thank-you-image" ' +
-            'src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/Check-Icon.png" />' +
-            '<br />คุณลงทะเบียนสำเร็จ</h1>';
+            '<h1 class="AlreadyRegister">' +
+            '<img class="thank-you-image" src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/Check-Icon.png" />' +
+            '<br /><br /><b>ลงทะเบียนสำเร็จ</b><br />ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรมกับ ZEA Tuna Essence</h1>';
         },
         error: function (err) {
           console.log(err);
@@ -318,24 +318,38 @@ function fetchConsent(cid) {
         foundRegistration(cid);
       } else {
         div_content.innerHTML =
-          '<div class="container-md form-container" id="content-body"><div class="modal show-modal" tabindex="-1"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content" style="height: 90%"><div class="modal-body">' +
+          '<div class="container-md form-container"><div class="modal show-modal" tabindex="-1"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content" style="height: 90%"><div class="modal-body">' +
           resp.content +
           '<br><table class="table-consent"><tbody id="TableBodyConsent"></tbody></table></div><div id="FooterConsent" class="modal-footer modal-footer-style"></div></div></div></div>';
 
         // for loop consent item append to table
         resp.consentList.forEach((item) => {
           let confm = document.getElementById('TableBodyConsent');
-          let tag =
-            '<tr><td>' +
-            item.description +
-            '</td><td><label class="switch"><input type="checkbox" id="ConsentId' +
-            item.consentListId +
-            '" name="ConsentId' +
-            item.consentListId +
-            '" value="ConsentId' +
-            item.consentListId +
-            '" /><span class="slider round"></span></label></td></tr><tr><td></td></tr>';
-          confm.innerHTML = confm.innerHTML + tag;
+          if (item.consentListId == '1' || item.consentListId == 1) {
+            let tag =
+              '<tr><td>' +
+              item.description +
+              '</td><td><label class="switch"><input type="checkbox" id="ConsentId' +
+              item.consentListId +
+              '" name="ConsentId' +
+              item.consentListId +
+              '" value="ConsentId' +
+              item.consentListId +
+              '" checked /><span class="slider round"></span></label></td></tr><tr><td></td></tr>';
+            confm.innerHTML = confm.innerHTML + tag;
+          } else {
+            let tag =
+              '<tr><td>' +
+              item.description +
+              '</td><td><label class="switch"><input type="checkbox" id="ConsentId' +
+              item.consentListId +
+              '" name="ConsentId' +
+              item.consentListId +
+              '" value="ConsentId' +
+              item.consentListId +
+              '" /><span class="slider round"></span></label></td></tr><tr><td></td></tr>';
+            confm.innerHTML = confm.innerHTML + tag;
+          }
         });
 
         // add innerHTML to FooterConsent
@@ -343,7 +357,7 @@ function fetchConsent(cid) {
         ft.innerHTML =
           '<div class="consentBtn"><button type="button" id="BtnRejectConsent">' +
           resp.cancelText +
-          '</button></div><div class="consentBtn"><button type="button" id="BtnSaveConsent" disabled>' +
+          '</button></div><div class="consentBtn"><button type="button" id="BtnSaveConsent">' +
           resp.submitText +
           '</button></div>';
 
@@ -455,12 +469,10 @@ function foundRegistration(cid) {
   let xhr = new XMLHttpRequest();
   xhr.onload = function () {
     if (xhr.status == 200) {
-      // document.getElementById('content-body').innerHTML =
-      //   '<h1 class="AlreadyRegister">คุณเคยลงทะเบียนไว้แล้ว<br>ขอบคุณที่สนับสนุน ZEA Tuna Essence</h1>';
       document.getElementById('content-body').innerHTML =
-        '<h1 class="AlreadyRegister"><img class="thank-you-image" ' +
-        'src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/Check-Icon.png" />' +
-        '<br />คุณลงทะเบียนสำเร็จ</h1>';
+        '<h1 class="AlreadyRegister">' +
+        '<img class="thank-you-image" src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/Check-Icon.png" />' +
+        '<br /><br />คุณได้ลงทะเบียนเข้าร่วมกิจกรรมเป็นที่เรียบร้อยแล้ว</h1>';
     } else {
       initialRegistrationForm(cid);
     }
