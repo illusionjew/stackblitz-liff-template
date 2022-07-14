@@ -284,7 +284,7 @@ function submitForm(cid) {
           // liff.closeWindow();
           document.getElementById('content-body').innerHTML =
             '<h1 class="AlreadyRegister"><img class="thank-you-image" ' +
-            'src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/check_icon.png" />' +
+            'src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/Check-Icon.png" />' +
             '<br />คุณลงทะเบียนสำเร็จ</h1>';
         },
         error: function (err) {
@@ -459,7 +459,7 @@ function foundRegistration(cid) {
       //   '<h1 class="AlreadyRegister">คุณเคยลงทะเบียนไว้แล้ว<br>ขอบคุณที่สนับสนุน ZEA Tuna Essence</h1>';
       document.getElementById('content-body').innerHTML =
         '<h1 class="AlreadyRegister"><img class="thank-you-image" ' +
-        'src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/check_icon.png" />' +
+        'src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/Check-Icon.png" />' +
         '<br />คุณลงทะเบียนสำเร็จ</h1>';
     } else {
       initialRegistrationForm(cid);
