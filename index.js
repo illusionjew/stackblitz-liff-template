@@ -38,14 +38,14 @@ async function main() {
     withLoginOnExternalBrowser: true,
   });
   if (liff.isLoggedIn()) {
-    // getUserProfile();
-    if (liff.isInClient()) {
-      getUserProfile();
-    } else {
-      const div_content = document.getElementById('content-body');
-      div_content.innerHTML =
-        '<h1 class="AlreadyRegister">กรุณาเปิด Link ด้วย Line Application</h1>';
-    }
+    getUserProfile();
+    // if (liff.isInClient()) {
+    //   getUserProfile();
+    // } else {
+    //   const div_content = document.getElementById('content-body');
+    //   div_content.innerHTML =
+    //     '<h1 class="AlreadyRegister">กรุณาเปิด Link ด้วย Line Application</h1>';
+    // }
   } else {
     liff.login({ redirectUri: app_config.LineConf.RedirectUri });
   }
@@ -58,8 +58,9 @@ async function getUserProfile() {
   // user_profile.displayName;
   // user_profile.statusMessage;
 
-  fetchConsent(user_profile.userId);
+  // fetchConsent(user_profile.userId);
   // fetchConsent('mockuserid14'); // change before test
+  foundRegistration('mockuserid13');
 }
 
 function filterDistrict() {
@@ -283,7 +284,7 @@ function submitForm(cid) {
           // liff.closeWindow();
           document.getElementById('content-body').innerHTML =
             '<h1 class="AlreadyRegister"><img class="thank-you-image" ' +
-            'src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/ZEA_LOGO_SQ-3.jpg" />' +
+            'src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/check_icon.png" />' +
             '<br />คุณลงทะเบียนสำเร็จ</h1>';
         },
         error: function (err) {
@@ -454,8 +455,12 @@ function foundRegistration(cid) {
   let xhr = new XMLHttpRequest();
   xhr.onload = function () {
     if (xhr.status == 200) {
+      // document.getElementById('content-body').innerHTML =
+      //   '<h1 class="AlreadyRegister">คุณเคยลงทะเบียนไว้แล้ว<br>ขอบคุณที่สนับสนุน ZEA Tuna Essence</h1>';
       document.getElementById('content-body').innerHTML =
-        '<h1 class="AlreadyRegister">คุณเคยลงทะเบียนไว้แล้ว<br>ขอบคุณที่สนับสนุน ZEA Tuna Essence</h1>';
+        '<h1 class="AlreadyRegister"><img class="thank-you-image" ' +
+        'src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/check_icon.png" />' +
+        '<br />คุณลงทะเบียนสำเร็จ</h1>';
     } else {
       initialRegistrationForm(cid);
     }
