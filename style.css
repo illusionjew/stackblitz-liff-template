@@ -195,5 +195,5 @@ input:checked + .slider:before {
   align-items: center;
   width: 20%;
   height: 20%;
-  margin-top: 70%;
+  margin-top: 60%;
 }
