@@ -473,7 +473,7 @@ function foundRegistration(cid) {
       document.getElementById('content-body').innerHTML =
         '<h1 class="AlreadyRegister">' +
         '<img class="thank-you-image" src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/Check-Icon.png" />' +
-        '<br /><br />คุณได้ลงทะเบียนเข้าร่วมกิจกรรมเป็นที่เรียบร้อยแล้ว</h1>';
+        '<br /><br />คุณได้ลงทะเบียนเข้าร่วมกิจกรรม<br />เป็นที่เรียบร้อยแล้ว</h1>';
     } else {
       initialRegistrationForm(cid);
     }
