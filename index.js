@@ -44,7 +44,8 @@ async function main() {
     } else {
       const div_content = document.getElementById('content-body');
       div_content.innerHTML =
-        '<h1 class="AlreadyRegister">กรุณาเปิด Link ด้วย Line Application</h1>';
+        '<h1 class="AlreadyRegister"><br /><br /><br /><br /><br />' +
+        '<br /><br /><br /><br />กรุณาเปิด Link ด้วย Line Application</h1>';
     }
   } else {
     liff.login({ redirectUri: app_config.LineConf.RedirectUri });
