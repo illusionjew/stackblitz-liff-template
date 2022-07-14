@@ -186,3 +186,9 @@ input:checked + .slider:before {
 .table-consent {
   border-color: transparent;
 }
+
+.thank-you-image {
+  align-items: center;
+  width: 50%;
+  height: 50%;
+}
