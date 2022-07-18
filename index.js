@@ -287,6 +287,9 @@ function submitForm(cid) {
             '<h1 class="AlreadyRegister">' +
             '<img class="thank-you-image" src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/Check-Icon.png" />' +
             '<br /><br /><b>ลงทะเบียนสำเร็จ</b><br />ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรม<br />ZEA Tuna Essence</h1>';
+          setTimeout(() => {
+            liff.closeWindow();
+          }, 3000);
         },
         error: function (err) {
           console.log(err);
