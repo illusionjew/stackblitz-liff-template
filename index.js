@@ -286,7 +286,7 @@ function submitForm(cid) {
           document.getElementById('content-body').innerHTML =
             '<h1 class="AlreadyRegister">' +
             '<img class="thank-you-image" src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/Check-Icon.png" />' +
-            '<br /><br /><b>ลงทะเบียนสำเร็จ</b><br />ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรม ZEA Tuna Essence</h1>';
+            '<br /><br /><b>ลงทะเบียนสำเร็จ</b><br />ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรม<br />ZEA Tuna Essence</h1>';
         },
         error: function (err) {
           console.log(err);
@@ -329,7 +329,8 @@ function fetchConsent(cid) {
           if (item.consentListId == '1' || item.consentListId == 1) {
             let tag =
               '<tr><td>' +
-              item.description +
+              // item.description +
+              ' ข้าพเจ้าได้อ่านและรับทราบ ข้อกำหนดและเงื่อนไขการใช้งาน และ ประกาศคุ้มครองข้อมูลส่วนบุคคล' +
               '</td><td><label class="switch"><input type="checkbox" id="ConsentId' +
               item.consentListId +
               '" name="ConsentId' +
@@ -357,9 +358,11 @@ function fetchConsent(cid) {
         let ft = document.getElementById('FooterConsent');
         ft.innerHTML =
           '<div class="consentBtn"><button type="button" id="BtnRejectConsent">' +
-          resp.cancelText +
+          // resp.cancelText +
+          'ปฏิเสธ' +
           '</button></div><div class="consentBtn"><button type="button" id="BtnSaveConsent">' +
-          resp.submitText +
+          // resp.submitText +
+          'ยอมรับ' +
           '</button></div>';
 
         // add listener funtion to each button
