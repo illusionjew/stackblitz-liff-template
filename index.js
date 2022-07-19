@@ -38,15 +38,15 @@ async function main() {
     withLoginOnExternalBrowser: true,
   });
   if (liff.isLoggedIn()) {
-    // getUserProfile();
-    if (liff.isInClient()) {
-      getUserProfile();
-    } else {
-      const div_content = document.getElementById('content-body');
-      div_content.innerHTML =
-        '<h1 class="AlreadyRegister"><br /><br /><br /><br /><br />' +
-        '<br /><br /><br /><br />กรุณาเปิด Link ด้วย Line Application</h1>';
-    }
+    getUserProfile();
+    // if (liff.isInClient()) {
+    //   getUserProfile();
+    // } else {
+    //   const div_content = document.getElementById('content-body');
+    //   div_content.innerHTML =
+    //     '<h1 class="AlreadyRegister"><br /><br /><br /><br /><br />' +
+    //     '<br /><br /><br /><br />กรุณาเปิด Link ด้วย Line Application</h1>';
+    // }
   } else {
     liff.login({ redirectUri: app_config.LineConf.RedirectUri });
   }
@@ -59,8 +59,8 @@ async function getUserProfile() {
   // user_profile.displayName;
   // user_profile.statusMessage;
 
-  fetchConsent(user_profile.userId);
-  // fetchConsent('mockuserid16'); // change before test full journey
+  // fetchConsent(user_profile.userId);
+  fetchConsent('mockuserid16'); // change before test full journey
   // foundRegistration('mockuserid16'); // test register
 }
 
@@ -322,9 +322,13 @@ function fetchConsent(cid) {
         foundRegistration(cid);
       } else {
         div_content.innerHTML =
-          '<div class="container-md form-container"><div class="modal show-modal" tabindex="-1"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content" style="height: 90%"><div class="modal-body">' +
+          '<div class="container-md form-container"><div class="modal show-modal" tabindex="-1">' +
+          '<div class="modal-dialog modal-dialog-scrollable">' +
+          '<div class="modal-content" style="height: 90%">' +
+          '<div class="modal-body" id="ConsentBody">' +
           resp.content +
-          '<br><table class="table-consent"><tbody id="TableBodyConsent"></tbody></table></div><div id="FooterConsent" class="modal-footer modal-footer-style"></div></div></div></div>';
+          '<br><table class="table-consent"><tbody id="TableBodyConsent"></tbody></table>' +
+          '</div><div id="FooterConsent" class="modal-footer modal-footer-style"></div></div></div></div>';
 
         // for loop consent item append to table
         resp.consentList.forEach((item) => {
@@ -363,7 +367,7 @@ function fetchConsent(cid) {
           '<div class="consentBtn"><button type="button" id="BtnRejectConsent">' +
           // resp.cancelText +
           'ปฏิเสธ' +
-          '</button></div><div class="consentBtn"><button type="button" id="BtnSaveConsent">' +
+          '</button></div><div class="consentBtn"><button type="button" id="BtnSaveConsent" disabled>' +
           // resp.submitText +
           'ยอมรับ' +
           '</button></div>';
@@ -383,6 +387,12 @@ function fetchConsent(cid) {
         };
         document.getElementById('BtnSaveConsent').onclick = () => {
           saveConsent(resp, tk);
+        };
+        document.getElementById('ConsentBody').onscroll = () => {
+          const cb = document.getElementById('ConsentBody');
+          if (cb.offsetHeight + cb.scrollTop + 65 >= cb.scrollHeight) {
+            enableSaveConsentBtn();
+          }
         };
       }
     }
