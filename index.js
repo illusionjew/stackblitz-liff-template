@@ -257,6 +257,8 @@ function submitForm(cid) {
   ) {
     if (phone_val.length != 10) {
       alert('กรุณากรอกเบอร์โทรให้ครบ 10 หลัก');
+    } else if (postcode_val.length != 5) {
+      alert('กรุณากรอกรหัสไปรษณีย์ให้ครบ 5 หลัก');
     } else {
       let json_data = {
         line_id: cid,
@@ -344,7 +346,7 @@ function fetchConsent(cid) {
               item.consentListId +
               '" value="ConsentId' +
               item.consentListId +
-              '" checked /><span class="slider round"></span></label></td></tr><tr><td></td></tr>';
+              '" checked /><span class="slider round"></span></label></td></tr><tr><td><br /></td></tr>';
             confm.innerHTML = confm.innerHTML + tag;
           } else {
             let tag =
@@ -356,7 +358,7 @@ function fetchConsent(cid) {
               item.consentListId +
               '" value="ConsentId' +
               item.consentListId +
-              '" /><span class="slider round"></span></label></td></tr><tr><td></td></tr>';
+              '" /><span class="slider round"></span></label></td></tr><tr><td><br /></td></tr>';
             confm.innerHTML = confm.innerHTML + tag;
           }
         });
