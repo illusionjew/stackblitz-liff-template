@@ -38,15 +38,15 @@ async function main() {
     withLoginOnExternalBrowser: true,
   });
   if (liff.isLoggedIn()) {
-    getUserProfile();
-    // if (liff.isInClient()) {
-    //   getUserProfile();
-    // } else {
-    //   const div_content = document.getElementById('content-body');
-    //   div_content.innerHTML =
-    //     '<h1 class="AlreadyRegister"><br /><br /><br /><br /><br />' +
-    //     '<br /><br /><br /><br />กรุณาเปิด Link ด้วย Line Application</h1>';
-    // }
+    // getUserProfile();
+    if (liff.isInClient()) {
+      getUserProfile();
+    } else {
+      const div_content = document.getElementById('content-body');
+      div_content.innerHTML =
+        '<h1 class="AlreadyRegister"><br /><br /><br /><br /><br />' +
+        '<br /><br /><br /><br />กรุณาเปิด Link ด้วย Line Application</h1>';
+    }
   } else {
     liff.login({ redirectUri: app_config.LineConf.RedirectUri });
   }
@@ -59,8 +59,8 @@ async function getUserProfile() {
   // user_profile.displayName;
   // user_profile.statusMessage;
 
-  // fetchConsent(user_profile.userId);
-  fetchConsent('mockuserid16'); // change before test full journey
+  fetchConsent(user_profile.userId);
+  // fetchConsent('mockuserid16'); // change before test full journey
   // foundRegistration('mockuserid16'); // test register
 }
 
