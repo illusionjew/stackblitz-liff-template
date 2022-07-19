@@ -59,7 +59,7 @@ async function getUserProfile() {
   // user_profile.displayName;
   // user_profile.statusMessage;
 
-  fetchConsent(user_profile.userId);
+  fetchConsent('T' + user_profile.userId);
   // fetchConsent('mockuserid16'); // change before test full journey
   // foundRegistration('mockuserid16'); // test register
 }
