@@ -197,3 +197,7 @@ input:checked + .slider:before {
   /* height: 20%; */
   margin-top: 60%;
 }
+
+.swal-modal .swal-text {
+  text-align: center;
+}

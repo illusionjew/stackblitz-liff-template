@@ -7,6 +7,9 @@ import liff from '@line/liff';
 // Import jquery
 import $ from 'jquery';
 
+// Import custom alert
+import swal from 'sweetalert';
+
 import boundary_data from './assets/province.json';
 import app_config from './assets/app_config.json';
 
@@ -256,9 +259,17 @@ function submitForm(cid) {
     y_val != 'yyyy'
   ) {
     if (phone_val.length != 10) {
-      alert('กรุณากรอกเบอร์โทรให้ครบ 10 หลัก');
+      swal({
+        text: 'กรุณากรอกเบอร์โทรให้ครบ 10 หลัก',
+        icon: 'warning',
+        button: false,
+      });
     } else if (postcode_val.length != 5) {
-      alert('กรุณากรอกรหัสไปรษณีย์ให้ครบ 5 หลัก');
+      swal({
+        text: 'กรุณากรอกรหัสไปรษณีย์ให้ครบ 5 หลัก',
+        icon: 'warning',
+        button: false,
+      });
     } else {
       let json_data = {
         line_id: cid,
@@ -283,8 +294,6 @@ function submitForm(cid) {
         dataType: 'json',
         data: json_data,
         success: function (response) {
-          // alert('ขอบคุณที่ลงทะเบียนเข้าร่วมกิจกรรมกับเรา');
-          // liff.closeWindow();
           document.getElementById('content-body').innerHTML =
             '<h1 class="AlreadyRegister">' +
             '<img class="thank-you-image" src="https://raw.githubusercontent.com/illusionjew/stackblitz-liff-template/main/assets/images/Check-Icon.png" />' +
@@ -299,7 +308,11 @@ function submitForm(cid) {
       });
     }
   } else {
-    alert('กรุณากรอกข้อมูลในช่องที่มีเครื่องหมาย * ให้ครบถ้วน');
+    swal({
+      text: 'กรุณากรอกข้อมูลในช่อง\nที่มีเครื่องหมาย * ให้ครบถ้วน',
+      icon: 'warning',
+      button: false,
+    });
   }
 }
 
